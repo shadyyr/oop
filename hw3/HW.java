@@ -99,14 +99,24 @@ class Employee {
     }
 
     //calculate gross pay, tax deductions, and net pay
-    private double netPay(double payRate, double hoursWorked){
+    private double netPay(){
         double grossPay = payRate * hoursWorked;
         double taxDeduction = grossPay * 0.06;
         double netPay = grossPay - taxDeduction;
         return netPay;
     }
 
-    
+    private void printCheck(){
+        System.out.println("Employee's name\t" + fullName);
+        System.out.println("Employee's number\t" + employeeNumber);
+        System.out.println("Hourly rate of pay:\t" + payRate);
+        System.out.println("Hours worked:\t" + hoursWorked);
+
+        System.out.println("\n");
+
+        //System.out.println("Total Gross Pay:\t" + grossPay);
+        
+    }
 
 }
 
