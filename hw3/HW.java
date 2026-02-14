@@ -106,7 +106,7 @@ class Employee {
         return netPay;
     }
 
-    private void printCheck(){
+    public void printCheck(){
         System.out.println("Employee's name\t" + fullName);
         System.out.println("Employee's number\t" + employeeNumber);
         System.out.println("Hourly rate of pay:\t" + payRate);
@@ -114,7 +114,16 @@ class Employee {
 
         System.out.println("\n");
 
-        //System.out.println("Total Gross Pay:\t" + grossPay);
+        System.out.println("Total Gross Pay:\t" + payRate * hoursWorked);
+
+		System.out.println("\n");
+
+		System.out.println("Deductions");
+		System.out.println("Tax (6 %):\t" + (payRate * hoursWorked) * 0.06);
+
+		System.out.println("\n");
+
+		System.out.println("Net Pay:\t" + netPay());
         
     }
 
