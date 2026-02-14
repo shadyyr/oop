@@ -49,7 +49,47 @@ public class HW {
 //____________________________
 class Employee {
 
-	//Add the private attributes and the methods as mentioned above…
+    //Add the private attributes and the methods as mentioned above…
+	private String fullName;
+    private String employeeNumber;
+    private double payRate;
+    private double hoursWorked;
+
+    public String getFullName() {
+        return fullName;
+    }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getEmployeeNumber() {
+        return employeeNumber;
+    }
+    public void setEmployeeNumber(String employeeNumber) {
+        this.employeeNumber = employeeNumber;
+    }
+
+    public double getPayRate() {
+        return payRate;
+    }
+    public void setPayRate(double payRate) {
+        this.payRate = payRate;
+    }
+
+    public double getHoursWorked() {
+        return hoursWorked;
+    }
+    public void setHoursWorked(double hoursWorked) {
+        this.hoursWorked = hoursWorked;
+    }
+
+    public Employee(String fullName, String employeeNumber, double payRate, double hoursWorked){
+        this.fullName = fullName;
+        this.employeeNumber = employeeNumber;
+        this.payRate = payRate;
+        this.hoursWorked = hoursWorked;
+    }
+
 }
 
 
