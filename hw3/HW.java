@@ -1,3 +1,4 @@
+//Shade Rahman
 public class HW {
 
 	public static void main(String[] args) {
@@ -55,6 +56,15 @@ class Employee {
     private double payRate;
     private double hoursWorked;
 
+    //construtor
+    public Employee(String fullName, String employeeNumber, double payRate, double hoursWorked){
+        this.fullName = fullName;
+        this.employeeNumber = employeeNumber;
+        this.payRate = payRate;
+        this.hoursWorked = hoursWorked;
+    }
+
+    //setters and getters
     public String getFullName() {
         return fullName;
     }
@@ -83,11 +93,9 @@ class Employee {
         this.hoursWorked = hoursWorked;
     }
 
-    public Employee(String fullName, String employeeNumber, double payRate, double hoursWorked){
-        this.fullName = fullName;
-        this.employeeNumber = employeeNumber;
-        this.payRate = payRate;
-        this.hoursWorked = hoursWorked;
+    //overriding toString method
+    public String toString(){
+        return "[" + employeeNumber + "/" + fullName + ", " + hoursWorked + " Hours @ " + payRate + " per hour]";
     }
 
 }
