@@ -98,6 +98,16 @@ class Employee {
         return "[" + employeeNumber + "/" + fullName + ", " + hoursWorked + " Hours @ " + payRate + " per hour]";
     }
 
+    //calculate gross pay, tax deductions, and net pay
+    private double netPay(double payRate, double hoursWorked){
+        double grossPay = payRate * hoursWorked;
+        double taxDeduction = grossPay * 0.06;
+        double netPay = grossPay - taxDeduction;
+        return netPay;
+    }
+
+    
+
 }
 
 
