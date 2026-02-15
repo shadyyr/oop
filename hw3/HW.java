@@ -182,16 +182,29 @@ class Company {
 	public static void printCompanyInfo() {
 //This method prints the compay name and its tax id 
 		//You may choose to print that any way you like!
+		System.out.println("Company: " + companyName);
+		System.out.println("Tax ID: " + companyTaxId);
 	}
 	
 	public void printEmployees() {
 		//This methods prints all employees (One employee per line)
 		//Note that you already have toString in Employye
+		for (Employee e : employeeList){
+			System.out.println(e.toString());
+		}
 	}
 
 	public int countEmployees( double maxSalary ) {
 		//This method returns the number of employees paid less than maxSalary
-		
+		int i = 0;
+		for (Employee e : employeeList){
+			// what does salary mean?
+			//if (e.getPayRate() < maxSalary){
+			if ((e.getPayRate() * e.getHoursWorked()) < maxSalary){
+				i++;
+			}
+		}
+		return i;
 	}
 	
 
@@ -199,6 +212,12 @@ class Company {
 		//This method returns true if fullName exists as an employee. 
 		//It returns false otherwise
 		//this is a not a case sensitive search. 
+		for (Employee e : employeeList){
+			if(e.getFullName().compareToIgnoreCase(fullName) == 0){
+				return true;
+			}
+		}
+		return false;
 	} 
 
 
