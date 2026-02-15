@@ -238,13 +238,22 @@ class Company {
 	}
 	
 	public void deleteEmployeesBySalary (double targetSalary ) {
-		//This method deletes all employees who are paid targetSalary as a net //salary
+		//This method deletes all employees who are paid targetSalary as a net
+		//salary
 	}
 	
 	public void printCheck ( String employeeNumber) {
 		//This method prints the check of the employee whose employee number is
 		//employeeNumber. It prints NO SUCH EMPLOYEE EXISTS if employeeNumber is
 		//not a registered employee number.
+		for (Employee e : employeeList){
+			if (e.getEmployeeNumber().compareToIgnoreCase(employeeNumber) == 0){
+				e.printCheck();
+				return;
+			}
+		}
+		//return never hits aka employee doesnt exist
+		System.out.println("NO SUCH EMPLOYEE EXISTS");
 	}
 
 }//end of class Company
