@@ -1,4 +1,6 @@
 //Shade Rahman
+import java.util.*;
+
 public class HW {
 
 	public static void main(String[] args) {
@@ -139,6 +141,19 @@ class Company {
 
 	
 	//Add static Setters and Getters for companyName and companyTaxId
+	public static String getCompanyName() {
+		return companyName;
+	}
+	public static void setCompanyName(String companyName) {
+		Company.companyName = companyName;
+	}
+
+	public static String getCompanyTaxId() {
+		return companyTaxId;
+	}
+	public static void setCompanyTaxId(String companyTaxId) {
+		Company.companyTaxId = companyTaxId;
+	}
 	//No need to add a Setter and Getter for employeeList
 	
 	public Company() {
@@ -151,7 +166,17 @@ class Company {
 		//Add empoyee to employeeList
 //Note well that we can't add an employee whose employeeNumber already //assigned to another employee. In that case, this method returns false.
 		//This method returns true otherwise
-		
+
+		//check if employeeNumber already assigned, return false if so
+		for (Employee e : employeeList){
+			 if (employee.getEmployeeNumber().compareToIgnoreCase(e.getEmployeeNumber()) == 0){
+				return false;
+			 }
+		}
+
+		//add new employee, return true
+		employeeList.add(employee);
+		return true;
 	}
 	
 	public static void printCompanyInfo() {
