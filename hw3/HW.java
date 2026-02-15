@@ -164,7 +164,8 @@ class Company {
 
 	public boolean hire ( Employee employee ) {
 		//Add empoyee to employeeList
-//Note well that we can't add an employee whose employeeNumber already //assigned to another employee. In that case, this method returns false.
+		//Note well that we can't add an employee whose employeeNumber already
+		//assigned to another employee. In that case, this method returns false.
 		//This method returns true otherwise
 
 		//check if employeeNumber already assigned, return false if so
@@ -180,7 +181,7 @@ class Company {
 	}
 	
 	public static void printCompanyInfo() {
-//This method prints the compay name and its tax id 
+		//This method prints the compay name and its tax id 
 		//You may choose to print that any way you like!
 		System.out.println("Company: " + companyName);
 		System.out.println("Tax ID: " + companyTaxId);
@@ -223,15 +224,27 @@ class Company {
 
 
 	public void reverseEmployees () {
-//This method reverses the order in which the employees were added to 	//the list. The last employee is swapped with the first employee, the second last with the second and so on..
+		//This method reverses the order in which the employees were added to
+		//the list. The last employee is swapped with the first employee, the second last with the second and so on..
+		int front = 0;
+		int back = employeeList.size() - 1;
+		for (int iter = employeeList.size() / 2; iter > 0; iter--){
+			Employee temp = employeeList.get(front);
+			employeeList.set(front, employeeList.get(back));
+			employeeList.set(back, temp);
+			front++;
+			back--;
+		}
 	}
 	
 	public void deleteEmployeesBySalary (double targetSalary ) {
-//This method deletes all employees who are paid targetSalary as a net //salary
+		//This method deletes all employees who are paid targetSalary as a net //salary
 	}
 	
 	public void printCheck ( String employeeNumber) {
-//This method prints the check of the employee whose employee number is //employeeNumber. It prints NO SUCH EMPLOYEE EXISTS if employeeNumber is //not a registered employee number.
+		//This method prints the check of the employee whose employee number is
+		//employeeNumber. It prints NO SUCH EMPLOYEE EXISTS if employeeNumber is
+		//not a registered employee number.
 	}
 
 }//end of class Company
