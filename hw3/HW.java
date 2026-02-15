@@ -109,23 +109,23 @@ class Employee {
     }
 
     public void printCheck(){
-        System.out.println("Employee's name\t" + fullName);
+        System.out.println("Employee's name\t\t" + fullName);
         System.out.println("Employee's number\t" + employeeNumber);
-        System.out.println("Hourly rate of pay:\t" + payRate);
-        System.out.println("Hours worked:\t" + hoursWorked);
+        System.out.printf("Hourly rate of pay:\t%.2f\n", payRate);
+        System.out.printf("Hours worked:\t\t%.2f\n", hoursWorked);
 
-        System.out.println("\n");
+        System.out.println();
 
-        System.out.println("Total Gross Pay:\t" + payRate * hoursWorked);
+        System.out.printf("Total Gross Pay:\t%.2f\n", payRate * hoursWorked);
 
-		System.out.println("\n");
+		System.out.println();
 
 		System.out.println("Deductions");
-		System.out.println("Tax (6 %):\t" + (payRate * hoursWorked) * 0.06);
+		System.out.printf("Tax (6 %%):\t\t%.2f\n", ((payRate * hoursWorked) * 0.06));
 
-		System.out.println("\n");
+		System.out.println();
 
-		System.out.println("Net Pay:\t" + netPay());
+		System.out.printf("Net Pay:\t\t%.2f\n\n", netPay());
         
     }
 
@@ -184,6 +184,7 @@ class Company {
 		//You may choose to print that any way you like!
 		System.out.println("Company: " + companyName);
 		System.out.println("Tax ID: " + companyTaxId);
+		System.out.println();
 	}
 	
 	public void printEmployees() {
