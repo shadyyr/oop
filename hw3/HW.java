@@ -194,15 +194,16 @@ class Company {
 		for (Employee e : employeeList){
 			System.out.println(e.toString());
 		}
+		System.out.println();
 	}
 
 	public int countEmployees( double maxSalary ) {
 		//This method returns the number of employees paid less than maxSalary
 		int i = 0;
 		for (Employee e : employeeList){
-			// NOTE: i am assuming that "salary" refers to the total gross pay; hw document does not
+			// NOTE: i am assuming that "salary" refers to the net pay; hw document does not
 			// specify what "salary" is defined as
-			if ((e.getPayRate() * e.getHoursWorked()) < maxSalary){
+			if ( ((e.getPayRate() * e.getHoursWorked()) - ((e.getPayRate() * e.getHoursWorked()) * 0.06)) < maxSalary){
 				i++;
 			}
 		}
@@ -240,6 +241,15 @@ class Company {
 	public void deleteEmployeesBySalary (double targetSalary ) {
 		//This method deletes all employees who are paid targetSalary as a net
 		//salary
+		int index = employeeList.size() - 1;
+		while (index >= 0){
+			Employee e = employeeList.get(index);
+			double empSalary = ((e.getPayRate() * e.getHoursWorked()) - ((e.getPayRate() * e.getHoursWorked()) * 0.06));
+			if (empSalary == targetSalary){
+				employeeList.remove(index);
+			}
+			index--;
+		}
 	}
 	
 	public void printCheck ( String employeeNumber) {
@@ -254,6 +264,7 @@ class Company {
 		}
 		//return never hits aka employee doesnt exist
 		System.out.println("NO SUCH EMPLOYEE EXISTS");
+		System.out.println();
 	}
 
 }//end of class Company
