@@ -200,8 +200,8 @@ class Company {
 		//This method returns the number of employees paid less than maxSalary
 		int i = 0;
 		for (Employee e : employeeList){
-			// what does salary mean?
-			//if (e.getPayRate() < maxSalary){
+			// NOTE: i am assuming that "salary" refers to the total gross pay; hw document does not
+			// specify what "salary" is defined as
 			if ((e.getPayRate() * e.getHoursWorked()) < maxSalary){
 				i++;
 			}
