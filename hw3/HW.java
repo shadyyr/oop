@@ -116,16 +116,16 @@ class Employee {
 
         System.out.println();
 
-        System.out.printf("Total Gross Pay:\t%.2f\n", payRate * hoursWorked);
+        System.out.printf("Total Gross Pay:\t$%.2f\n", payRate * hoursWorked);
 
 		System.out.println();
 
 		System.out.println("Deductions");
-		System.out.printf("Tax (6 %%):\t\t%.2f\n", ((payRate * hoursWorked) * 0.06));
+		System.out.printf("Tax (6 %%):\t\t$%.2f\n", ((payRate * hoursWorked) * 0.06));
 
 		System.out.println();
 
-		System.out.printf("Net Pay:\t\t%.2f\n\n", netPay());
+		System.out.printf("Net Pay:\t\t%.2f Dollars\n\n", netPay());
         
     }
 
