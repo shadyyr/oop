@@ -51,6 +51,7 @@ abstract class Book{
         return "[" + isbn + "-" + title + " by " + author;
     }
 
+    //getBookType function
     abstract public String getBookType();
 
 }
@@ -97,10 +98,24 @@ class BookstoreBook extends Book{
         this.salesRate = salesRate;
     }
 
+    //additional functions
+    private double calculateDiscountedPrice(){
+        return (price - (price*saleRate));
+    }
+
     //toString override
     @Override
     public String toString(){
-        return super.toString() + ", $" + price + "listed for $" + (price*saleRate);
+        if(onSale)
+            return super.toString() + ", $" + price + " listed for $" + calculateDiscountedPrice() + "]";
+        else
+            return super.toString() + ", $" + price + "]";
+    }
+
+    //getBookType function
+    @Override
+    public String getBookType(){
+        return "Bookstore Book";
     }
 
 }
@@ -140,7 +155,12 @@ class LibraryBook extends Book{
     //toString override
     @Override
     public String toString(){
-        return super.toString() + "-" + callNumber;
+        return super.toString() + "-" + callNumber + "]";
     }
 
+    //getBookType function
+    @Override
+    public String getBookType(){
+        return "Library Book";
+    }
 }
