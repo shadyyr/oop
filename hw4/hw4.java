@@ -1,3 +1,4 @@
+// Worked on by: Shade Rahman
 import java.util.*;
 
 public class hw4 {
@@ -20,7 +21,7 @@ public class hw4 {
             do{
                 input = myScan.nextLine().toUpperCase();
                 if(!input.equals("YES") && !input.equals("NO")){
-                    System.out.print("Oops! That’s not a valid entry. Please try again: ");
+                    System.out.print("Oops! That's not a valid entry. Please try again: ");
                     valid = false;
                 }
                 else{
@@ -45,7 +46,7 @@ public class hw4 {
                 do{
                     input = myScan.nextLine().toUpperCase();
                     if(!input.equals("BB") && !input.equals("LB")){
-                        System.out.print("Oops! That’s not a valid entry. Please try again: ");
+                        System.out.print("Oops! That's not a valid entry. Please try again: ");
                         valid = false;
                     }
                     else{
@@ -56,18 +57,23 @@ public class hw4 {
                 
                 //getting bookstore book information
                 if(input.equals("BB")){
-                    System.out.print("Enter the list price of " + title + " by " + author + ": ");
-                    double price = myScan.nextDouble();
-                    myScan.nextLine(); //grabs newline to prevent any errors
+                    //initialize bookstore book variables
+                    double price;
                     boolean onSale;
                     double saleRate;
 
+                    //get price
+                    System.out.print("Enter the list price of " + title + " by " + author + ": ");
+                    price = myScan.nextDouble();
+                    myScan.nextLine(); //grabs newline to prevent any errors
+
+                    //get onSale and saleRate
                     System.out.print("Is it on sale? (yes/no): ");
                     //checks for valid input
                     do{
                         input = myScan.nextLine().toUpperCase();
                         if(!input.equals("YES") && !input.equals("NO")){
-                            System.out.print("Oops! That’s not a valid entry. Please try again: ");
+                            System.out.print("Oops! That's not a valid entry. Please try again: ");
                             valid = false;
                         }
                         else{
@@ -101,6 +107,64 @@ public class hw4 {
                 }
                 //getting library book information
                 else{
+                    //initialize library book variables
+                    String Subject;
+                    String SubjectCode = "";
+                    String callNumber;
+
+                    //get subject
+                    System.out.print("What's the subject: ");
+                    //checks for valid input
+                    do{
+                        Subject = myScan.nextLine();
+                        //find subject code
+                        switch(Subject.toUpperCase()){
+                            case "GENERAL": SubjectCode = "A"; break;
+                            case "PHILOSOPHY": SubjectCode = "B"; break;
+                            case "RELIGION": SubjectCode = "C"; break;
+                            case "WORLD HISTORY": SubjectCode = "D"; break;
+                            case "HISTORY OF THE AMERICAS": SubjectCode = "E"; break;
+                            case "GEOGRAPHY": SubjectCode = "F"; break;
+                            case "ANTHROPOLOGY": SubjectCode = "G"; break;
+                            case "SOCIAL SCIENCES": SubjectCode = "H"; break;
+                            case "INTERNET": SubjectCode = "I"; break;
+                            case "POLITICAL SCIENCE": SubjectCode = "J"; break;
+                            case "LAW": SubjectCode = "K"; break;
+                            case "EDUCATION": SubjectCode = "L"; break;
+                            case "MUSIC": SubjectCode = "M"; break;
+                            case "FINE ARTS": SubjectCode = "N"; break;
+                            case "LANGUAGE": SubjectCode = "P"; break;
+                            case "SCIENCE": SubjectCode = "Q"; break;
+                            case "MEDICINE": SubjectCode = "R"; break;
+                            case "AGRICULTURE": SubjectCode = "S"; break;
+                            case "TECHNOLOGY": SubjectCode = "T"; break;
+                            case "MILITARY": SubjectCode = "U"; break;
+                            default: SubjectCode = "";
+                        }
+                        if(SubjectCode.equals("")){
+                            System.out.print("Oops! That's not a valid entry. Please try again: ");
+                            valid = false;
+                        }
+                        else{
+                            System.out.println("Got it!");
+                            valid = true;
+                        }
+                    }while(valid == false);
+
+                    //generate callNumber
+                    int topFloor = 15;
+                    int bottomFloor = 1;
+                    Random rand = new Random();
+                    int floor = rand.nextInt(topFloor - bottomFloor + 1) + bottomFloor;
+                    callNumber = SubjectCode + "." + String.format("%02d", floor) + "." + author.substring(0,3) + "." + isbn.charAt(isbn.length() - 1);
+                    
+                    //using all given info, add library book to array
+                    index++;
+                    array[index] = new LibraryBook(author, title, isbn, SubjectCode, callNumber);
+
+                    //print library book toString
+                    System.out.println("Here is your library book information");
+                    System.out.println(array[index]);
 
                 }
             }
@@ -110,10 +174,10 @@ public class hw4 {
                 int LBcount = 0;
                 int BBcount = 0;
                 for (Book b : array){
-                    if (b.getBookType().equals("Library Book")){
+                    if (b!= null && b.getBookType().equals("Library Book")){
                         LBcount++;
                     }
-                    if (b.getBookType().equals("Bookstore Book")){
+                    if (b!= null && b.getBookType().equals("Bookstore Book")){
                         BBcount++;
                     }
                 }
@@ -268,7 +332,7 @@ class BookstoreBook extends Book{
 
 class LibraryBook extends Book{
     //variable initializations
-    private String Subject;
+    private String Subject; //this specifically holds the subject code, not the full subject name itself
     private String callNumber;
 
     //setters and getters
@@ -293,9 +357,8 @@ class LibraryBook extends Book{
         this.callNumber = callNumber;
     }
 
-    public LibraryBook(String Subject, String callNumber){
-        this.Subject = Subject;
-        this.callNumber = callNumber;
+    public LibraryBook(String author, String title, String isbn){
+        super(author, title, isbn);
     }
 
     //toString override
