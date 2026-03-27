@@ -4,23 +4,81 @@ public class hw4 {
     public static void main(String[] args){
         //variable initializations
         Book[] array = new Book[100];
+        String input = "";
         Scanner myScan = new Scanner(System.in);
+        boolean bookCreation = true;
         boolean valid = false;
 
         //welcome message
         System.out.println("\t\tWelcome to the book program!");
 
-        System.out.print("Would you like to create a book object? (yes/no): ");
+        //creating books
         do{
-            String input = myScan.nextLine().toLowerCase();
-            if(!input.equals("yes") && !input.equals("no")){
-                System.out.print("Oops! That’s not a valid entry. Please try again: ");
-                valid = false;
+            System.out.print("Would you like to create a book object? (yes/no): ");
+            //checks for valid input
+            do{
+                input = myScan.nextLine().toLowerCase();
+                if(!input.equals("yes") && !input.equals("no")){
+                    System.out.print("Oops! That’s not a valid entry. Please try again: ");
+                    valid = false;
+                }
+                else{
+                    valid = true;
+                }
+            }while(valid == false);
+
+            //create a book object
+            if(input.equals("yes")){
+                //get author, title, and isbn from user, ensure no spaces at the end, ensure all entries are uppercase, set delimiter to /
+                System.out.println("Enter the author, title, and the isbn of the book separated by /: ");
+                scanner.useDelimiter("/");
+                String author = myScan.nextLine().trim().toUpperCase();
+                String title = myScan.nextLine().trim().toUpperCase();
+                String isbn = myScan.nextLine().trim().toUpperCase();
+                System.out.println("Got it!");
             }
+            //display all books
             else{
-                valid = true;
+                //counts all library books and bookstore books
+                int LBcount = 0;
+                int BBcount = 0;
+                for (Book b : array){
+                    if (b.getBookType().equals("Library Book")){
+                        LBcount++;
+                    }
+                    if (b.getBookType().equals("Bookstore Book")){
+                        BBcount++;
+                    }
+                }
+
+                //general msg
+                System.out.println("Sure!");
+                System.out.println("Here are all the books you entered...");
+
+                //display all library books
+                System.out.println("Library Books (" + LBcount + ")");
+                for(Book b: array){
+                    if (b != null && b.getBookType().equals("Library Book")){
+                        System.out.println("\t" + b);
+                    }
+                }
+                System.out.println("----");
+
+                //display all bookstore books
+                System.out.println("Bookstore Books (" + BBcount + ")");
+                for(Book b: array){
+                    if (b != null && b.getBookType().equals("Bookstore Book")){
+                        System.out.println("\t" + b);
+                    }
+                }
+                System.out.println("----");
+
+                //condition to exit Book Creation do-while look
+                bookCreation = false;
             }
-        }while(valid == false);
+        }while(bookCreation == true);
+
+        //searching books
 
     }
 }
@@ -69,7 +127,7 @@ abstract class Book{
     //toString override
     @Override
     public String toString(){
-        return "[" + isbn + "-" + title + " by " + author;
+        return "[" + isbn + "-" + title.toUpperCase() + " by " + author.toUpperCase();
     }
 
     //getBookType function
