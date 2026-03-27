@@ -1,5 +1,26 @@
+import java.util.*;
+
 public class hw4 {
     public static void main(String[] args){
+        //variable initializations
+        Book[] array = new Book[99];
+        Scanner myScan = new Scanner(System.in);
+        boolean valid = false;
+
+        //welcome message
+        System.out.println("\t\tWelcome to the book program!");
+
+        System.out.print("Would you like to create a book object? (yes/no): ");
+        do{
+            String input = myScan.nextLine().toLowerCase();
+            if(!input.equals("yes") && !input.equals("no")){
+                System.out.print("Oops! That’s not a valid entry. Please try again: ");
+                valid = false;
+            }
+            else{
+                valid = true;
+            }
+        }while(valid == false);
 
     }
 }
@@ -85,17 +106,17 @@ class BookstoreBook extends Book{
     }
 
     //constructors
-    public BookstoreBook(String author, String title, String isbn, double price, boolean onSale, double salesRate){
+    public BookstoreBook(String author, String title, String isbn, double price, boolean onSale, double saleRate){
         super(author, title, isbn);
         this.price = price;
         this.onSale = onSale;
-        this.salesRate = salesRate;
+        this.saleRate = saleRate;
     }
 
-    public BookstoreBook(double price, boolean onSale, double salesRate){
+    public BookstoreBook(double price, boolean onSale, double saleRate){
         this.price = price;
         this.onSale = onSale;
-        this.salesRate = salesRate;
+        this.saleRate = saleRate;
     }
 
     //additional functions
