@@ -95,7 +95,7 @@ public class hw4 {
                         onSale = false;
                         saleRate = 0.0;
                     }
-                    System.out.println("Got it!");
+                    System.out.println("Got it!\n");
 
                     //using all given info, add bookstore book to array
                     index++;
@@ -104,6 +104,7 @@ public class hw4 {
                     //print bookstore book toString
                     System.out.println("Here is your bookstore book information");
                     System.out.println(array[index]);
+                    System.out.println("\n");
                 }
                 //getting library book information
                 else{
@@ -146,7 +147,7 @@ public class hw4 {
                             valid = false;
                         }
                         else{
-                            System.out.println("Got it!");
+                            System.out.println("Got it!\n");
                             valid = true;
                         }
                     }while(valid == false);
@@ -165,6 +166,7 @@ public class hw4 {
                     //print library book toString
                     System.out.println("Here is your library book information");
                     System.out.println(array[index]);
+                    System.out.println("\n");
 
                 }
             }
@@ -210,7 +212,104 @@ public class hw4 {
         }while(bookCreation == true);
 
         //searching books
+        System.out.print("Would you like to search for a book? (yes/no): ");
+        //checks for valid input
+        do{
+            input = myScan.nextLine().toUpperCase();
+            if(!input.equals("YES") && !input.equals("NO")){
+                System.out.print("Oops! That's not a valid entry. Please try again: ");
+                valid = false;
+            }
+            else{
+                valid = true;
+            }
+        }while(valid == false);
+        //user wants to search for a book
+        if(input.equals("YES")){
+            System.out.print("Search by isbn, author, or title? ");
+            input = myScan.nextLine().toUpperCase();
+            int LBcount = 0;
+            int BBcount = 0;
 
+            if(input.equals("ISBN")){
+                System.out.print("Enter the last character of the isbn: ");
+                input = myScan.nextLine().toUpperCase();
+                //figure out # of library books and # of bookstore books this applies to
+                for(Book b : array){
+                    if(b!= null && (b.getIsbn().charAt((b.getIsbn().length()) - 1)) == input.charAt(0)){
+                        if((b.getBookType()).equals("Library Book")){
+                            LBcount++;
+                        }
+                        else{
+                            BBcount++;
+                        }
+                    }
+                }
+                //num of books found msg
+                System.out.println("We found " + LBcount + " Library Book(s) and " + BBcount + " Book Store Book(s):");
+                //print the books
+                for(Book b : array){
+                    if(b!= null && (b.getIsbn().charAt((b.getIsbn().length()) - 1)) == input.charAt(0)){
+                        System.out.println(b);
+                    }
+                }
+            }
+            else if(input.equals("AUTHOR")){
+                System.out.print("Enter the first three letters of the author: ");
+                input = myScan.nextLine().toUpperCase();
+                //figure out # of library books and # of bookstore books this applies to
+                for(Book b : array){
+                    if(b != null && ((b.getAuthor()).substring(0,3)).equals(input)){
+                        if((b.getBookType()).equals("Library Book")){
+                            LBcount++;
+                        }
+                        else{
+                            BBcount++;
+                        }
+                    }
+                }
+                //num of books found msg
+                System.out.println("We found " + LBcount + " Library Book(s) and " + BBcount + " Book Store Book(s):");
+                //print books
+                for(Book b : array){
+                    if(b != null && ((b.getAuthor()).substring(0,3)).equals(input)){
+                        System.out.println(b);
+                    }
+                }
+            }
+            else if(input.equals("TITLE")){
+                System.out.print("Enter the title of the book: ");
+                input = myScan.nextLine().toUpperCase();
+                //figure out # of library books and # of bookstore books this applies to
+                for(Book b : array){
+                    if(b != null && (b.getTitle()).equals(input)){
+                        if((b.getBookType()).equals("Library Book")){
+                            LBcount++;
+                        }
+                        else{
+                            BBcount++;
+                        }
+                    }
+                }
+                //num of books found msg
+                System.out.println("We found " + LBcount + " Library Book(s) and " + BBcount + " Book Store Book(s):");
+                //print books
+                for(Book b : array){
+                    if(b != null && (b.getTitle()).equals(input)){
+                        System.out.println(b);
+                    }
+                }
+            }
+            //goodbye message
+            System.out.println("\nTake Care!");
+            return;
+        }    
+        //user does not want to search for a book
+        else{
+            //goodbye message
+            System.out.println("\nTake Care!");
+            return;
+        }
     }
 }
 
