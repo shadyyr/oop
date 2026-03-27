@@ -8,6 +8,7 @@ public class hw4 {
         Scanner myScan = new Scanner(System.in);
         boolean bookCreation = true;
         boolean valid = false;
+        int index = -1;
 
         //welcome message
         System.out.println("\t\tWelcome to the book program!");
@@ -17,8 +18,8 @@ public class hw4 {
             System.out.print("Would you like to create a book object? (yes/no): ");
             //checks for valid input
             do{
-                input = myScan.nextLine().toLowerCase();
-                if(!input.equals("yes") && !input.equals("no")){
+                input = myScan.nextLine().toUpperCase();
+                if(!input.equals("YES") && !input.equals("NO")){
                     System.out.print("Oops! That’s not a valid entry. Please try again: ");
                     valid = false;
                 }
@@ -28,14 +29,80 @@ public class hw4 {
             }while(valid == false);
 
             //create a book object
-            if(input.equals("yes")){
-                //get author, title, and isbn from user, ensure no spaces at the end, ensure all entries are uppercase, set delimiter to /
-                System.out.println("Enter the author, title, and the isbn of the book separated by /: ");
-                scanner.useDelimiter("/");
-                String author = myScan.nextLine().trim().toUpperCase();
-                String title = myScan.nextLine().trim().toUpperCase();
-                String isbn = myScan.nextLine().trim().toUpperCase();
+            if(input.equals("YES")){
+                //get author, title, and isbn from user, split entries by /, ensure no spaces at the end, ensure all entries are uppercase
+                System.out.print("Enter the author, title, and the isbn of the book separated by /: ");
+                input = myScan.nextLine();
+                String[] entries = input.split("/");
+                String author = entries[0].trim().toUpperCase();
+                String title = entries[1].trim().toUpperCase();
+                String isbn = entries[2].trim().toUpperCase();
                 System.out.println("Got it!");
+
+                //bookstore book or library book?
+                System.out.print("Now, tell me if it is a bookstore book or a library book (enter BB for bookstore book or LB for library book): ");
+                //checks for valid input
+                do{
+                    input = myScan.nextLine().toUpperCase();
+                    if(!input.equals("BB") && !input.equals("LB")){
+                        System.out.print("Oops! That’s not a valid entry. Please try again: ");
+                        valid = false;
+                    }
+                    else{
+                        System.out.println("Got it!");
+                        valid = true;
+                    }
+                }while(valid == false);
+                
+                //getting bookstore book information
+                if(input.equals("BB")){
+                    System.out.print("Enter the list price of " + title + " by " + author + ": ");
+                    double price = myScan.nextDouble();
+                    myScan.nextLine(); //grabs newline to prevent any errors
+                    boolean onSale;
+                    double saleRate;
+
+                    System.out.print("Is it on sale? (yes/no): ");
+                    //checks for valid input
+                    do{
+                        input = myScan.nextLine().toUpperCase();
+                        if(!input.equals("YES") && !input.equals("NO")){
+                            System.out.print("Oops! That’s not a valid entry. Please try again: ");
+                            valid = false;
+                        }
+                        else{
+                            valid = true;
+                        }
+                    }while(valid == false);
+                    //book is on sale
+                    if(input.equals("YES")){
+                        onSale = true;
+                        System.out.print("Deduction percentage: ");
+                        String rawPercent = myScan.nextLine();
+                        //convert string into a mathematical value we can use to calculate discounted book price
+                        rawPercent = rawPercent.replace("%", "");
+                        saleRate = Double.parseDouble(rawPercent);
+                        saleRate = saleRate / 100;
+                    }
+                    //book is not on sale
+                    else{
+                        onSale = false;
+                        saleRate = 0.0;
+                    }
+                    System.out.println("Got it!");
+
+                    //using all given info, add bookstore book to array
+                    index++;
+                    array[index] = new BookstoreBook(author, title, isbn, price, onSale, saleRate);
+
+                    //print bookstore book toString
+                    System.out.println("Here is your bookstore book information");
+                    System.out.println(array[index]);
+                }
+                //getting library book information
+                else{
+
+                }
             }
             //display all books
             else{
@@ -186,9 +253,9 @@ class BookstoreBook extends Book{
     @Override
     public String toString(){
         if(onSale)
-            return super.toString() + ", $" + price + " listed for $" + calculateDiscountedPrice() + "]";
+            return super.toString() + ", $" + String.format("%.2f", price) + " listed for $" + String.format("%.2f", calculateDiscountedPrice()) + "]";
         else
-            return super.toString() + ", $" + price + "]";
+            return super.toString() + ", $" + String.format("%.2f", price) + "]";
     }
 
     //getBookType function
