@@ -45,6 +45,12 @@ abstract class Book{
         isbn = "xxx";
     }
 
+    //toString override
+    @Override
+    public String toString(){
+        return "[" + isbn + "-" + title + " by " + author;
+    }
+
     abstract public String getBookType();
 
 }
@@ -91,6 +97,12 @@ class BookstoreBook extends Book{
         this.salesRate = salesRate;
     }
 
+    //toString override
+    @Override
+    public String toString(){
+        return super.toString() + ", $" + price + "listed for $" + (price*saleRate);
+    }
+
 }
 
 class LibraryBook extends Book{
@@ -123,6 +135,12 @@ class LibraryBook extends Book{
     public LibraryBook(String Subject, String callNumber){
         this.Subject = Subject;
         this.callNumber = callNumber;
+    }
+
+    //toString override
+    @Override
+    public String toString(){
+        return super.toString() + "-" + callNumber;
     }
 
 }
