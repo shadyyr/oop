@@ -3,7 +3,7 @@ import java.util.*;
 public class hw4 {
     public static void main(String[] args){
         //variable initializations
-        Book[] array = new Book[99];
+        Book[] array = new Book[100];
         Scanner myScan = new Scanner(System.in);
         boolean valid = false;
 
