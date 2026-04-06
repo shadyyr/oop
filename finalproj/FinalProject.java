@@ -8,10 +8,35 @@ public class FinalProject {
     }
 }
 
-class Student extends Person{
+abstract class Person{
     //variable initializations
+    private String fullName;
+    private String id;
+
+    //setters and getters
+    public String getFullName() {
+        return fullName;
+    }
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    //public abstract void print();
+}
+
+class Student extends Person{
+    //variable initializations + constants
     private double gpa;
     private int creditHours;
+    double creditHourCost = 236.45;
+    double administrativeFee = 52.00;
+    double discount = 1.00;
 
     //setters and getters
     public double getGpa() {
@@ -26,7 +51,34 @@ class Student extends Person{
     public void setCreditHours(int creditHours) {
         this.creditHours = creditHours;
     }
+    
+    //functions
+    public double calculateTuition() {
+        //check to see if student is eligible for discount
+        if (gpa >= 3.85){
+            discount = 0.75; //25% discount is applied
+        }
+        else{
+            discount = 1.00; //no discount applied
+        }
+        
+        return ((creditHourCost * creditHours) + administrativeFee) * discount;
+    }
 
+}
+
+abstract class Employee extends Person{
+    //variable initializations
+    private String department;
+
+    //setters and getters
+    public String getDepartment() {
+        return department;
+    }
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+    
 }
 
 class Faculty extends Employee{
@@ -55,40 +107,4 @@ class Staff extends Employee{
         this.status = status;
     }
 
-}
-
-abstract class Employee extends Person{
-    //variable initializations
-    private String department;
-
-    //setters and getters
-    public String getDepartment() {
-        return department;
-    }
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-    
-}
-
-abstract class Person{
-    //variable initializations
-    private String fullName;
-    private String id;
-
-    //setters and getters
-    public String getFullName() {
-        return fullName;
-    }
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-    public String getId() {
-        return id;
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    //public abstract void print();
 }
