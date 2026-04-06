@@ -27,6 +27,12 @@ abstract class Person{
         this.id = id;
     }
 
+    //constructors
+    public Person(String fullName, String id) {
+        this.fullName = fullName;
+        this.id = id;
+    }
+
     //public abstract void print();
 }
 
@@ -51,6 +57,16 @@ class Student extends Person{
     public void setCreditHours(int creditHours) {
         this.creditHours = creditHours;
     }
+
+    //constructors
+    public Student(String fullName, String id, double gpa, int creditHours) {
+        super(fullName, id);
+        this.gpa = gpa;
+        this.creditHours = creditHours;
+    }
+    public Student(String fullName, String id) {
+        super(fullName, id);
+    }
     
     //functions
     public double calculateTuition() {
@@ -61,7 +77,7 @@ class Student extends Person{
         else{
             discount = 1.00; //no discount applied
         }
-        
+
         return ((creditHourCost * creditHours) + administrativeFee) * discount;
     }
 
@@ -78,6 +94,16 @@ abstract class Employee extends Person{
     public void setDepartment(String department) {
         this.department = department;
     }
+
+    //constructors
+    public Employee(String fullName, String id, String department) {
+        super(fullName, id);
+        this.department = department;
+    }
+
+    public Employee(String fullName, String id) {
+        super(fullName, id);
+    }
     
 }
 
@@ -92,6 +118,15 @@ class Faculty extends Employee{
     public void setRank(String rank) {
         this.rank = rank;
     }
+
+    public Faculty(String fullName, String id, String department, String rank) {
+        super(fullName, id, department);
+        this.rank = rank;
+    }
+
+    public Faculty(String fullName, String id, String department) {
+        super(fullName, id, department);
+    }
     
 }
 
@@ -105,6 +140,15 @@ class Staff extends Employee{
     }
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Staff(String fullName, String id, String department, String status) {
+        super(fullName, id, department);
+        this.status = status;
+    }
+
+    public Staff(String fullName, String id, String department) {
+        super(fullName, id, department);
     }
 
 }
