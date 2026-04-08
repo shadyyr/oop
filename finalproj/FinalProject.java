@@ -2,9 +2,115 @@
 - Final Project done by: Shade Rahman
 */
 
+import java.util.*;
+
 public class FinalProject {
     public static void main(String[] args) {
-        
+
+        //initializations
+        ArrayList<Person> UniversityClass = new ArrayList<Person>(100);
+        int selection = 0;
+
+        //welcome text + get user selection
+        System.out.println("\n\nWelcome to the Personal Management System");
+        selection = Menu();
+
+        //go to desired selection
+        switch(selection){
+            case 1:
+                addFaculty();
+                break;
+            case 2:
+                System.out.println("x");
+                break;
+            case 3:
+                System.out.println("x");
+                break;
+            case 4:
+                System.out.println("x");
+                break;
+            case 5:
+                System.out.println("x");
+                break;
+            case 6:
+                System.out.println("x");
+                break;
+            case 7:
+                System.out.println("x");
+                break;
+            case 8:
+                System.out.println("x");
+                break;
+            default:
+                System.out.println("Try again!");
+        }
+
+    }
+    
+    private static int Menu(){
+        int input = 0;
+        Scanner myScan = new Scanner(System.in);
+        System.out.println("Choose one of the options:");
+        System.out.println("1- Add a faculty");
+        System.out.println("2- Add a student");
+        System.out.println("3- Print tuition invoice for a student");
+        System.out.println("4- Print faculty information");
+        System.out.println("5- Add a staff member");
+        System.out.println("6- Print the information of a staff member");
+        System.out.println("7- Delete a person");
+        System.out.println("8- Exit Program\n");
+
+        System.out.print("Enter your selection: ");
+        return input = myScan.nextInt();
+    }
+
+    private static void addFaculty(){
+
+        //variable initializations
+        Scanner myScan = new Scanner(System.in);
+        String name = "xx";
+        String id = "xx";
+        String department = "xx";
+        String rank = "xx";
+
+        //user inputs
+        System.out.println("Enter faculty info:");
+        System.out.print("\tName: ");
+        name = myScan.nextLine();
+        System.out.print("\tID: ");
+        id = myScan.nextLine();
+        System.out.print("\tDepartment: ");
+        department = myScan.nextLine();
+        System.out.print("\tRank: ");
+        rank = myScan.nextLine();
+
+    }
+
+    private static int checkId(String id){
+        int i = 0;
+        //check length of id, return 0 if longer than expected
+        if(id.length() > 6){
+            return 0;
+        }
+        //check first two chars for letter
+        for(i = 0; i < 2; i++){
+            if(Character.isLetter(id.charAt(i))){
+                continue;
+            }
+            else{
+                return 0;
+            }
+        }
+        //check first two chars for letter
+        for(i = 2; i < 6; i++){
+            if(Character.isDigit(id.charAt(i))){
+                continue;
+            }
+            else{
+                return 0;
+            }
+        }
+        return 1;
     }
 }
 
