@@ -32,7 +32,7 @@ public class FinalProject {
                     printFacultyInfo();
                     break;
                 case 5:
-                    System.out.println("x");
+                    addStaff();
                     break;
                 case 6:
                     System.out.println("x");
@@ -288,6 +288,77 @@ public class FinalProject {
         //no id found
         System.out.println("Sorry no faculty with ID = " + id);
     }
+
+    private static void addStaff(){
+        //clear any leftover newlines
+        myScan.nextLine();
+
+        //variable initializations
+        String name = "xx";
+        String id = "xx";
+        String department = "xx";
+        String status = "xx";
+
+        //user inputs
+        for(int attempts = 0; attempts < 3; attempts++){
+            //input name
+            System.out.println("Enter staff info:");
+            System.out.print("\tName: ");
+            name = myScan.nextLine();
+
+            //input id
+            System.out.print("\tID: ");
+            id = myScan.nextLine().toLowerCase();
+            if(!Person.checkId(id)){
+                System.out.println("Invalid ID format. Must be LetterLetterDigitDigitDigitDigit");
+                if (attempts < 2){
+                    System.out.println("Try again!");
+                }
+                continue;
+            }
+            if(checkDuplicateId(id)){
+                System.out.println("This ID already exists!");
+                if (attempts < 2){
+                    System.out.println("Try again!");
+                }
+                continue;
+            }
+
+            //input department
+            System.out.print("\tDepartment: ");
+            department = myScan.nextLine();
+            if(!Employee.checkDepartment(department)){
+                System.out.println("Invalid department. Must be Mathematics, Engineering, or English");
+                if (attempts < 2){
+                    System.out.println("Try again!");
+                }
+                continue;
+            }
+            department = Employee.formatDepartment(department);
+
+            //input status
+            System.out.print("\tStatus: ");
+            status = myScan.nextLine();
+            if(!Staff.checkStatus(status)){
+                System.out.println("Invalid status. Must be Part-time or Full-time. Ensure you include the dash");
+                if (attempts < 2){
+                    System.out.println("Try again!");
+                }
+                continue;
+            }
+            status = Staff.formatStatus(status);
+
+            //add staff to UniversityClass list
+            Staff s = new Staff(name, id, department, status);
+            UniversityClass.add(s);
+
+            //confirmation message and go back to menu
+            System.out.println("Staff added!");
+            return;
+
+        }
+    }
+
 }
 
 abstract class Person{
@@ -524,5 +595,19 @@ class Staff extends Employee{
         System.out.println(getFullName());
         System.out.println("ID: " + getId());
         System.out.println(getDepartment() + ", " + getStatus());
+    }
+
+    public static boolean checkStatus(String status){
+        if(status.equalsIgnoreCase("part-time") || status.equalsIgnoreCase("full-time")){
+            return true;
+        }
+        return false;
+    }
+
+    public static String formatStatus(String status){
+        if(status.equalsIgnoreCase("part-time")){
+            return "Part Time";
+        }
+        return "Full Time";
     }
 }
