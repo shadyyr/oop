@@ -5,51 +5,55 @@
 import java.util.*;
 
 public class FinalProject {
+    private static final Scanner myScan = new Scanner(System.in);
+    private static final ArrayList<Person> UniversityClass = new ArrayList<Person>(100);
+
     public static void main(String[] args) {
 
         //initializations
-        ArrayList<Person> UniversityClass = new ArrayList<Person>(100);
-        int selection = 0;
+        boolean run = true;
 
         //welcome text + get user selection
         System.out.println("\n\nWelcome to the Personal Management System");
-        selection = Menu();
-
-        //go to desired selection
-        switch(selection){
-            case 1:
-                addFaculty();
-                break;
-            case 2:
-                System.out.println("x");
-                break;
-            case 3:
-                System.out.println("x");
-                break;
-            case 4:
-                System.out.println("x");
-                break;
-            case 5:
-                System.out.println("x");
-                break;
-            case 6:
-                System.out.println("x");
-                break;
-            case 7:
-                System.out.println("x");
-                break;
-            case 8:
-                System.out.println("x");
-                break;
-            default:
-                System.out.println("Try again!");
+        while (run == true){
+            int selection = Menu();
+            //go to desired selection
+            switch(selection){
+                case 1:
+                    addFaculty();
+                    break;
+                case 2:
+                    System.out.println("x");
+                    break;
+                case 3:
+                    System.out.println("x");
+                    break;
+                case 4:
+                    System.out.println("x");
+                    break;
+                case 5:
+                    System.out.println("x");
+                    break;
+                case 6:
+                    System.out.println("x");
+                    break;
+                case 7:
+                    System.out.println("x");
+                    break;
+                case 8:
+                    System.out.println("x");
+                    break;
+                default:
+                    System.out.println("Try again!");
+            }
         }
+
+        System.out.println("Goodbye!");
 
     }
     
     private static int Menu(){
         int input = 0;
-        Scanner myScan = new Scanner(System.in);
         System.out.println("Choose one of the options:");
         System.out.println("1- Add a faculty");
         System.out.println("2- Add a student");
@@ -65,52 +69,83 @@ public class FinalProject {
     }
 
     private static void addFaculty(){
+        //clear any leftover newlines
+        myScan.nextLine();
 
         //variable initializations
-        Scanner myScan = new Scanner(System.in);
         String name = "xx";
         String id = "xx";
         String department = "xx";
         String rank = "xx";
 
         //user inputs
-        System.out.println("Enter faculty info:");
-        System.out.print("\tName: ");
-        name = myScan.nextLine();
-        System.out.print("\tID: ");
-        id = myScan.nextLine();
-        System.out.print("\tDepartment: ");
-        department = myScan.nextLine();
-        System.out.print("\tRank: ");
-        rank = myScan.nextLine();
+        for(int attempts = 0; attempts < 3; attempts++){
+            //input name
+            System.out.println("Enter faculty info:");
+            System.out.print("\tName: ");
+            name = myScan.nextLine();
+
+            //input id
+            System.out.print("\tID: ");
+            id = myScan.nextLine().toLowerCase();
+            if(!Person.checkId(id)){
+                System.out.println("Invalid ID format. Must be LetterLetterDigitDigitDigitDigit");
+                if (attempts < 2){
+                    System.out.println("Try again!");
+                }
+                continue;
+            }
+            if(checkDuplicateId(id)){
+                System.out.println("This ID already exists!");
+                if (attempts < 2){
+                    System.out.println("Try again!");
+                }
+                continue;
+            }
+
+            //input department
+            System.out.print("\tDepartment: ");
+            department = myScan.nextLine();
+            if(!Employee.checkDepartment(department)){
+                System.out.println("Invalid department. Must be Mathematics, Engineering, or English");
+                if (attempts < 2){
+                    System.out.println("Try again!");
+                }
+                continue;
+            }
+            department = Employee.formatDepartment(department);
+
+            //input rank
+            System.out.print("\tRank: ");
+            rank = myScan.nextLine();
+            if(!Faculty.checkRank(rank)){
+                System.out.println("Invalid rank. Must be Professor or Adjunct");
+                if (attempts < 2){
+                    System.out.println("Try again!");
+                }
+                continue;
+            }
+            rank = Faculty.formatRank(rank);
+
+            //add faculty to UniversityClass list
+            Faculty f = new Faculty(name, id, department, rank);
+            UniversityClass.add(f);
+
+            //confirmation message and go back to menu
+            System.out.println("Faculty added!");
+            return;
+
+        }
 
     }
 
-    private static int checkId(String id){
-        int i = 0;
-        //check length of id, return 0 if longer than expected
-        if(id.length() > 6){
-            return 0;
-        }
-        //check first two chars for letter
-        for(i = 0; i < 2; i++){
-            if(Character.isLetter(id.charAt(i))){
-                continue;
-            }
-            else{
-                return 0;
+    private static boolean checkDuplicateId(String id){
+        for (Person p : UniversityClass){
+            if(p.getId().equalsIgnoreCase(id)){
+                return true;
             }
         }
-        //check first two chars for letter
-        for(i = 2; i < 6; i++){
-            if(Character.isDigit(id.charAt(i))){
-                continue;
-            }
-            else{
-                return 0;
-            }
-        }
-        return 1;
+        return false;
     }
 }
 
@@ -130,16 +165,43 @@ abstract class Person{
         return id;
     }
     public void setId(String id) {
-        this.id = id;
+        this.id = id.toLowerCase();
     }
 
     //constructors
     public Person(String fullName, String id) {
         this.fullName = fullName;
-        this.id = id;
+        this.id = id.toLowerCase();
     }
 
-    //public abstract void print();
+    //functions
+    public abstract void print();
+    public static boolean checkId(String id){
+        int i = 0;
+        //check length of id, return 0 if longer than expected
+        if(id == null || id.length() != 6){
+            return false;
+        }
+        //check first two chars for letter
+        for(i = 0; i < 2; i++){
+            if(Character.isLetter(id.charAt(i))){
+                continue;
+            }
+            else{
+                return false;
+            }
+        }
+        //check first two chars for letter
+        for(i = 2; i < 6; i++){
+            if(Character.isDigit(id.charAt(i))){
+                continue;
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
+    }
 }
 
 class Student extends Person{
@@ -175,6 +237,14 @@ class Student extends Person{
     }
     
     //functions
+    @Override
+    public void print(){
+        System.out.println(getFullName());
+        System.out.println("ID: " + getId());
+        System.out.println("GPA: " + getGpa());
+        System.out.println("Credit Hours: " + getCreditHours());
+    }
+
     public double calculateTuition() {
         //check to see if student is eligible for discount
         if (gpa >= 3.85){
@@ -210,6 +280,24 @@ abstract class Employee extends Person{
     public Employee(String fullName, String id) {
         super(fullName, id);
     }
+
+    //functions
+    public static boolean checkDepartment(String department){
+        if(department.equalsIgnoreCase("Mathematics") || department.equalsIgnoreCase("Engineering") || department.equalsIgnoreCase("English")){
+            return true;
+        }
+        return false;
+    }
+
+    public static String formatDepartment(String department){
+        if(department.equalsIgnoreCase("mathematics")){
+            return "Mathematics";
+        }
+        if(department.equalsIgnoreCase("engineering")){
+            return "Engineering";
+        }
+        return "English";
+    }
     
 }
 
@@ -232,6 +320,28 @@ class Faculty extends Employee{
 
     public Faculty(String fullName, String id, String department) {
         super(fullName, id, department);
+    }
+
+    //functions
+    @Override
+    public void print(){
+        System.out.println(getFullName());
+        System.out.println("ID: " + getId());
+        System.out.println(getRank() + ", " + getDepartment());
+    }
+
+    public static boolean checkRank(String rank){
+        if(rank.equalsIgnoreCase("Professor") || rank.equalsIgnoreCase("Adjunct")){
+            return true;
+        }
+        return false;
+    }
+
+    public static String formatRank(String rank){
+        if(rank.equalsIgnoreCase("professor")){
+            return "Professor";
+        }
+        return "Adjunct";
     }
     
 }
@@ -257,4 +367,11 @@ class Staff extends Employee{
         super(fullName, id, department);
     }
 
+    //functions
+    @Override
+    public void print(){
+        System.out.println(getFullName());
+        System.out.println("ID: " + getId());
+        System.out.println(getDepartment() + ", " + getStatus());
+    }
 }
