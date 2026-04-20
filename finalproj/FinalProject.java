@@ -23,10 +23,10 @@ public class FinalProject {
                     addFaculty();
                     break;
                 case 2:
-                    System.out.println("x");
+                    addStudent();
                     break;
                 case 3:
-                    System.out.println("x");
+                    printTuitionInvoice();
                     break;
                 case 4:
                     System.out.println("x");
@@ -66,6 +66,15 @@ public class FinalProject {
 
         System.out.print("Enter your selection: ");
         return input = myScan.nextInt();
+    }
+
+    private static boolean checkDuplicateId(String id){
+        for (Person p : UniversityClass){
+            if(p.getId().equalsIgnoreCase(id)){
+                return true;
+            }
+        }
+        return false;
     }
 
     private static void addFaculty(){
@@ -139,13 +148,88 @@ public class FinalProject {
 
     }
 
-    private static boolean checkDuplicateId(String id){
-        for (Person p : UniversityClass){
-            if(p.getId().equalsIgnoreCase(id)){
-                return true;
+    private static void addStudent(){
+        //clear any leftover newlines
+        myScan.nextLine();
+
+        //variable initializations
+        String name = "xx";
+        String id = "xx";
+        double gpa = 0.00;
+        int creditHours = -1;
+
+        //user inputs
+        for(int attempts = 0; attempts < 3; attempts++){
+            //input name
+            System.out.println("Enter student info:");
+            System.out.print("\tName: ");
+            name = myScan.nextLine();
+
+            //input id
+            System.out.print("\tID: ");
+            id = myScan.nextLine().toLowerCase();
+            if(!Person.checkId(id)){
+                System.out.println("Invalid ID format. Must be LetterLetterDigitDigitDigitDigit");
+                if (attempts < 2){
+                    System.out.println("Try again!");
+                }
+                continue;
             }
+            if(checkDuplicateId(id)){
+                System.out.println("This ID already exists!");
+                if (attempts < 2){
+                    System.out.println("Try again!");
+                }
+                continue;
+            }
+
+            try{
+                //input gpa
+                System.out.print("\tGPA: ");
+                gpa = myScan.nextDouble();
+                myScan.nextLine(); //clear leftover newlines
+                if(gpa < 0 || gpa > 4.00){
+                    System.out.println("Invalid GPA. Please enter a number between 0 and 4.0");
+                    if (attempts < 2){
+                        System.out.println("Try again!");
+                    }
+                    continue;
+                }
+
+                //input credit hours
+                System.out.print("\tCredit Hours: ");
+                creditHours = myScan.nextInt();
+                myScan.nextLine(); //clear leftover newlines
+                if(creditHours < 0){
+                    System.out.println("Invalid credit hours. Please enter a positive number");
+                    if (attempts < 2){
+                        System.out.println("Try again!");
+                    }
+                    continue;
+                }
+            }
+            catch(InputMismatchException e){
+                System.out.println("Invalid input");
+                myScan.nextLine(); //clear leftover newlines
+                if (attempts < 2){
+                    System.out.println("Try again!");
+                }
+                continue;
+            }
+
+            //add student to UniversityClass list
+            Student s = new Student(name, id, gpa, creditHours);
+            UniversityClass.add(s);
+
+            //confirmation message and go back to menu
+            System.out.println("Student added!");
+            return;
+
         }
-        return false;
+    }
+
+    private static void printTuitionInvoice(){
+
     }
 }
 
