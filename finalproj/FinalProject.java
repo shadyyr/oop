@@ -58,7 +58,7 @@ public class FinalProject {
         System.out.println("1- Add a faculty");
         System.out.println("2- Add a student");
         System.out.println("3- Print tuition invoice for a student");
-        System.out.println("4- Print faculty information");
+        System.out.println("4- Print faculty information by id");
         System.out.println("5- Add a staff member");
         System.out.println("6- Print the information of a staff member");
         System.out.println("7- Delete a person");
