@@ -278,7 +278,7 @@ public class FinalProject {
                     Faculty f = (Faculty)p;
                     f.print();
                 }
-                //id exists, but does not link to a student
+                //id exists, but does not link to a faculty
                 else{
                     System.out.println("This ID is not matched to a Faculty");
                 }
