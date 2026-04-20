@@ -44,7 +44,7 @@ public class FinalProject {
                     System.out.println("x");
                     break;
                 default:
-                    System.out.println("Try again!");
+                    System.out.println("\nTry again!\n");
             }
         }
 
@@ -65,7 +65,15 @@ public class FinalProject {
         System.out.println("8- Exit Program\n");
 
         System.out.print("Enter your selection: ");
-        return input = myScan.nextInt();
+        
+        //makes sure user enters a number
+        try{
+            return input = myScan.nextInt();
+        }
+        catch(InputMismatchException e){
+            myScan.nextLine();
+            return -1;
+        }
     }
 
     private static boolean checkDuplicateId(String id){
@@ -149,8 +157,7 @@ public class FinalProject {
     }
 
     private static void addStudent(){
-        //clear any leftover newlines
-        myScan.nextLine();
+        myScan.nextLine(); //clear leftover newlines
 
         //variable initializations
         String name = "xx";
@@ -229,7 +236,31 @@ public class FinalProject {
     }
 
     private static void printTuitionInvoice(){
+        myScan.nextLine(); //clear leftover newlines
+        
+        //find student's ID
+        System.out.print("Enter the student's ID: ");
+        String id = myScan.nextLine().toLowerCase();
 
+        //search list
+        for(Person p : UniversityClass){
+            //find a match
+            if(p.getId().equalsIgnoreCase(id)){
+
+                //check if id is linked to a student
+                if(p instanceof Student){
+                    Student s = (Student)p;
+                    s.printTuitionInvoice();
+                }
+                //id exists, but does not link to a student
+                else{
+                    System.out.println("This ID is not matched to a Student");
+                }
+                return;
+            }
+        }
+        //no id found
+        System.out.println("Student not found!");
     }
 }
 
@@ -293,7 +324,7 @@ class Student extends Person{
     private double gpa;
     private int creditHours;
     double creditHourCost = 236.45;
-    double administrativeFee = 52.00;
+    int administrativeFee = 52;
     double discount = 1.00;
 
     //setters and getters
@@ -339,6 +370,16 @@ class Student extends Person{
         }
 
         return ((creditHourCost * creditHours) + administrativeFee) * discount;
+    }
+
+    public void printTuitionInvoice(){
+        System.out.println("Tuition invoice for " + getFullName() + ":");
+        System.out.println("--------------------------------------------------");
+        System.out.println(getFullName() + "\t" + getId());
+        System.out.println("Credit Hours: " + creditHours + " ($236.45/credit hour)");
+        System.out.println("Fees: $" + administrativeFee);
+        System.out.println("Total payment (after discount): " + calculateTuition());
+        System.out.println("--------------------------------------------------");
     }
 
 }
