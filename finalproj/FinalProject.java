@@ -38,7 +38,7 @@ public class FinalProject {
                     printStaffInfo();
                     break;
                 case 7:
-                    System.out.println("x");
+                    deletePerson();
                     break;
                 case 8:
                     System.out.println("x");
@@ -385,6 +385,25 @@ public class FinalProject {
         }
         //no id found
         System.out.println("Sorry no staff with ID = " + id);
+    }
+
+    private static void deletePerson(){
+        myScan.nextLine(); //clear leftover newlines
+
+        //find ID of person we're deleting
+        System.out.print("Enter the ID of the person you'd like to delete: ");
+        String id = myScan.nextLine().toLowerCase();
+
+        //search list and delete if found
+        for(int i = 0; i < UniversityClass.size(); i++){
+            if(UniversityClass.get(i).getId().equalsIgnoreCase(id)){
+                UniversityClass.remove(i);
+                System.out.println("Person deleted");
+                return;
+            }
+        }
+        //no id found
+        System.out.println("Sorry no person with ID = " + id);
     }
 
 }
