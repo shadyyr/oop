@@ -35,7 +35,7 @@ public class FinalProject {
                     addStaff();
                     break;
                 case 6:
-                    System.out.println("x");
+                    printStaffInfo();
                     break;
                 case 7:
                     System.out.println("x");
@@ -258,7 +258,7 @@ public class FinalProject {
             }
         }
         //no id found
-        System.out.println("Student not found!");
+        System.out.println("Sorry no student with ID = " + id);
     }
 
     private static void printFacultyInfo(){
@@ -357,6 +357,34 @@ public class FinalProject {
             return;
 
         }
+    }
+
+    private static void printStaffInfo(){
+        myScan.nextLine(); //clear leftover newlines
+
+        //find staff ID
+        System.out.print("Enter the Staff ID: ");
+        String id = myScan.nextLine().toLowerCase();
+
+        //search list
+        for(Person p : UniversityClass){
+            //find a match
+            if(p.getId().equalsIgnoreCase(id)){
+
+                //check if id is linked to a staff
+                if(p instanceof Staff){
+                    Staff s = (Staff)p;
+                    s.print();
+                }
+                //id exists, but does not link to a staff
+                else{
+                    System.out.println("This ID is not matched to a Staff");
+                }
+                return;
+            }
+        }
+        //no id found
+        System.out.println("Sorry no staff with ID = " + id);
     }
 
 }
