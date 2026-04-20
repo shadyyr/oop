@@ -29,7 +29,7 @@ public class FinalProject {
                     printTuitionInvoice();
                     break;
                 case 4:
-                    System.out.println("x");
+                    printFacultyInfo();
                     break;
                 case 5:
                     System.out.println("x");
@@ -153,7 +153,6 @@ public class FinalProject {
             return;
 
         }
-
     }
 
     private static void addStudent(){
@@ -231,7 +230,6 @@ public class FinalProject {
             //confirmation message and go back to menu
             System.out.println("Student added!");
             return;
-
         }
     }
 
@@ -261,6 +259,34 @@ public class FinalProject {
         }
         //no id found
         System.out.println("Student not found!");
+    }
+
+    private static void printFacultyInfo(){
+        myScan.nextLine(); //clear leftover newlines
+
+        //find faculty's ID
+        System.out.print("Enter the Faculty ID: ");
+        String id = myScan.nextLine().toLowerCase();
+
+        //search list
+        for(Person p : UniversityClass){
+            //find a match
+            if(p.getId().equalsIgnoreCase(id)){
+
+                //check if id is linked to a faculty
+                if(p instanceof Faculty){
+                    Faculty f = (Faculty)p;
+                    f.print();
+                }
+                //id exists, but does not link to a student
+                else{
+                    System.out.println("This ID is not matched to a Faculty");
+                }
+                return;
+            }
+        }
+        //no id found
+        System.out.println("Sorry no faculty with ID = " + id);
     }
 }
 
