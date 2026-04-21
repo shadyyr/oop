@@ -46,7 +46,9 @@ public class FinalProject {
                     break;
                 case 8:
                     run = exitAttempt();
-                    System.out.println("\nGoodbye!");
+                    if (!run){
+                        System.out.println("\nGoodbye!");
+                    }
                     break;
                 default:
                     System.out.println("Try again!");
@@ -56,7 +58,6 @@ public class FinalProject {
     }
     
     private static int Menu(){
-        int input = 0;
         System.out.println("\nChoose one of the options:");
         System.out.println("1- Add a faculty");
         System.out.println("2- Add a student");
@@ -71,7 +72,7 @@ public class FinalProject {
         
         //makes sure user enters a number
         try{
-            return input = myScan.nextInt();
+            return myScan.nextInt();
         }
         catch(InputMismatchException e){
             myScan.nextLine();
@@ -471,13 +472,25 @@ public class FinalProject {
                 StudentClass.add(s);
             }
         }
+        //sort StudentClass by gpa
         if(sort == 1){
             StudentClass.sort((s1, s2) -> Double.compare(s2.getGpa(), s1.getGpa()));
         }
+        //sort StudentClass by name
         else if(sort == 2){
             StudentClass.sort(Comparator.comparing(Student::getFullName));
         }
 
+        //make a new arraylist for only faculty
+        ArrayList<Faculty> FacultyClass = new ArrayList<Faculty>();
+        for(Person p : UniversityClass){
+            if(p instanceof Faculty){
+                Faculty f = (Faculty) p;
+                FacultyClass.add(f);
+            }
+        }
+        //sort FacultyClass by department
+        FacultyClass.sort(Comparator.comparing(Faculty::getDepartment));
 
         //find date
         LocalDateTime dateObj = LocalDateTime.now();
@@ -494,14 +507,11 @@ public class FinalProject {
             myWriter.write("Faculty Members\n");
             myWriter.write("-------------------------\n");
             int pos = 0;
-            for(Person p : UniversityClass){
-                if(p instanceof Faculty){
-                    pos++;
-                    Faculty f = (Faculty) p;
-                    myWriter.write(pos + ". " + f.getFullName() + "\n");
-                    myWriter.write("\tID: " + f.getId() + "\n");
-                    myWriter.write("\t" + f.getRank() + ", " + f.getDepartment() + "\n\n");
-                }
+            for(Faculty f : FacultyClass){
+                pos++;
+                myWriter.write(pos + ". " + f.getFullName() + "\n");
+                myWriter.write("\tID: " + f.getId() + "\n");
+                myWriter.write("\t" + f.getRank() + ", " + f.getDepartment() + "\n\n");
             }
 
             //print all staff members
@@ -590,7 +600,7 @@ abstract class Person{
                 return false;
             }
         }
-        //check first two chars for letter
+        //check next 4 chars for digit
         for(i = 2; i < 6; i++){
             if(Character.isDigit(id.charAt(i))){
                 continue;
@@ -607,8 +617,8 @@ class Student extends Person{
     //variable initializations + constants
     private double gpa;
     private int creditHours;
-    double creditHourCost = 236.45;
-    int administrativeFee = 52;
+    private static final double creditHourCost = 236.45;
+    private static final int administrativeFee = 52;
     double discount = 1.00;
 
     //setters and getters
