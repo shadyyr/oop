@@ -45,10 +45,11 @@ public class FinalProject {
                     deletePerson();
                     break;
                 case 8:
-                    run = generateReport();
+                    run = exitAttempt();
+                    System.out.println("\nGoodbye!");
                     break;
                 default:
-                    System.out.println("\nTry again!\n");
+                    System.out.println("Try again!");
             }
         }
 
@@ -408,7 +409,7 @@ public class FinalProject {
         System.out.println("Sorry no person with ID = " + id);
     }
 
-    private static boolean generateReport(){
+    private static boolean exitAttempt(){
         myScan.nextLine(); //clear leftover newlines
         int attempts = 0;
 

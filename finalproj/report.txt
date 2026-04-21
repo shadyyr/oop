@@ -2,24 +2,7 @@ Report created on 04/21/2026
 *******************************
 Faculty Members
 -------------------------
-1. john miller
-ID: jo1234
-	Adjunct, Mathematics
-
 Staff Members
 -------------------------
-1. joseph joestar
-	ID: jo2314
-	English, Part Time
-
-2. jonathan joestar
-	ID: jo1123
-	Engineering, Full Time
-
 Students (Sorted by GPA)
 -------------------------
-1. kevin dadan
-	ID: ke3456
-	GPA: 3.8
-	Credit hours: 7
-
