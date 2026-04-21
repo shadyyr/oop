@@ -3,6 +3,10 @@
 */
 
 import java.util.*;
+import java.io.*;
+import java.text.*;
+import java.time.*;
+import java.time.format.*;
 
 public class FinalProject {
     private static final Scanner myScan = new Scanner(System.in);
@@ -14,7 +18,7 @@ public class FinalProject {
         boolean run = true;
 
         //welcome text + get user selection
-        System.out.println("\n\nWelcome to the Personal Management System");
+        System.out.println("\t\tWelcome to the Personal Management System");
         while (run == true){
             int selection = Menu();
             //go to desired selection
@@ -41,20 +45,18 @@ public class FinalProject {
                     deletePerson();
                     break;
                 case 8:
-                    System.out.println("x");
+                    run = generateReport();
                     break;
                 default:
                     System.out.println("\nTry again!\n");
             }
         }
 
-        System.out.println("Goodbye!");
-
     }
     
     private static int Menu(){
         int input = 0;
-        System.out.println("Choose one of the options:");
+        System.out.println("\nChoose one of the options:");
         System.out.println("1- Add a faculty");
         System.out.println("2- Add a student");
         System.out.println("3- Print tuition invoice for a student");
@@ -406,6 +408,143 @@ public class FinalProject {
         System.out.println("Sorry no person with ID = " + id);
     }
 
+    private static boolean generateReport(){
+        myScan.nextLine(); //clear leftover newlines
+        int attempts = 0;
+
+        //generate report?
+        for(attempts = 0; attempts < 3; attempts++){
+            System.out.print("Would you like to create the report? (Y/N): ");
+            String report = myScan.nextLine();
+
+            //skip this for loop, go to sorting method
+            if(report.equalsIgnoreCase("y")){
+                break;
+            }
+            //return false to end program
+            else if(report.equalsIgnoreCase("n")){
+                return false;
+            }
+            else{
+                System.out.println("Invalid choice.");
+            }
+        }
+
+        //did user hit 3-attempt limit? return true to repeat program
+        if (attempts == 3){
+            return true;
+        }
+
+        //sorting method
+        int sort = 0;
+        for (attempts = 0; attempts < 3; attempts++){
+            System.out.print("Would you like to sort your students by GPA or name? (Enter 1 for GPA. Enter 2 for name): ");
+            try{
+                sort = myScan.nextInt();
+                myScan.nextLine(); //clear leftover newlines
+
+                //valid input? get out of for loop and go sort
+                if(sort == 1 || sort == 2){
+                    break;
+                }
+                else{
+                    System.out.println("Invalid choice.");
+                }
+            }
+            catch(InputMismatchException e){
+                myScan.nextLine();
+                System.out.println("Invalid choice.");
+            }
+        }
+
+        //did user hit 3-attempt limit? return true to repeat program
+        if (attempts == 3){
+            return true;
+        }
+
+        //make a new arraylist for only students
+        ArrayList<Student> StudentClass = new ArrayList<Student>();
+        for(Person p : UniversityClass){
+            if(p instanceof Student){
+                Student s = (Student) p;
+                StudentClass.add(s);
+            }
+        }
+        if(sort == 1){
+            StudentClass.sort((s1, s2) -> Double.compare(s2.getGpa(), s1.getGpa()));
+        }
+        else if(sort == 2){
+            StudentClass.sort(Comparator.comparing(Student::getFullName));
+        }
+
+
+        //find date
+        LocalDateTime dateObj = LocalDateTime.now();
+        DateTimeFormatter formattedDateObj = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        String date = dateObj.format(formattedDateObj);
+
+        //create file
+        try{
+            FileWriter myWriter = new FileWriter("report.txt");
+            myWriter.write("Report created on " + date + "\n");
+            myWriter.write("*******************************\n");
+
+            //print all faculty members
+            myWriter.write("Faculty Members\n");
+            myWriter.write("-------------------------\n");
+            int pos = 0;
+            for(Person p : UniversityClass){
+                if(p instanceof Faculty){
+                    pos++;
+                    Faculty f = (Faculty) p;
+                    myWriter.write(pos + ". " + f.getFullName() + "\n");
+                    myWriter.write("\tID: " + f.getId() + "\n");
+                    myWriter.write("\t" + f.getRank() + ", " + f.getDepartment() + "\n\n");
+                }
+            }
+
+            //print all staff members
+            myWriter.write("Staff Members\n");
+            myWriter.write("-------------------------\n");
+            pos = 0;
+            for(Person p : UniversityClass){
+                if(p instanceof Staff){
+                    pos++;
+                    Staff s = (Staff) p;
+                    myWriter.write(pos + ". " + s.getFullName() + "\n");
+                    myWriter.write("\tID: " + s.getId() + "\n");
+                    myWriter.write("\t" + s.getDepartment() + ", " + s.getStatus() + "\n\n");
+                }
+            }
+
+            //print all students
+            myWriter.write("Students (Sorted by ");
+            if(sort == 1){
+                myWriter.write("GPA)\n");
+            }
+            else if(sort == 2){
+                myWriter.write("name)\n");
+            }
+            myWriter.write("-------------------------\n");
+            pos = 0;
+            for(Student s : StudentClass){
+                pos++;
+                myWriter.write(pos + ". " + s.getFullName() + "\n");
+                myWriter.write("\tID: " + s.getId() + "\n");
+                myWriter.write("\tGPA: " + s.getGpa() + "\n");
+                myWriter.write("\tCredit hours: " + s.getCreditHours() + "\n\n");
+            }
+            myWriter.close();
+        }
+        catch(IOException e){
+            System.out.println("An error has occured.");
+            e.printStackTrace();
+        }
+
+        //success message
+        System.out.println("Report created and saved to report.txt!");
+        return false;
+    }
 }
 
 abstract class Person{
@@ -513,16 +652,20 @@ class Student extends Person{
             discount = 1.00; //no discount applied
         }
 
-        return ((creditHourCost * creditHours) + administrativeFee) * discount;
+        double tuition = ((creditHourCost * creditHours) + administrativeFee) * discount;
+        tuition = Math.round(tuition * 100.0) / 100.0;
+
+        return tuition;
     }
 
     public void printTuitionInvoice(){
+        DecimalFormat df = new DecimalFormat("$#,##0.00");
         System.out.println("Tuition invoice for " + getFullName() + ":");
         System.out.println("--------------------------------------------------");
         System.out.println(getFullName() + "\t" + getId());
         System.out.println("Credit Hours: " + creditHours + " ($236.45/credit hour)");
         System.out.println("Fees: $" + administrativeFee);
-        System.out.println("Total payment (after discount): " + calculateTuition());
+        System.out.println("Total payment (after discount): " + df.format(calculateTuition()));
         System.out.println("--------------------------------------------------");
     }
 
